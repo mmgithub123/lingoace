@@ -15,6 +15,9 @@ canal:
       connector.disconnect()//断开连接
 
 
+
+      Message->Entry->StoreValue
+
       Message:
 
       
