@@ -1,1 +1,3 @@
 netstat -nltp | grep 2910    查看进程端口
+
+su - test -c "mkdir /data/test123" 
