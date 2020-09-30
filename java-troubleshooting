@@ -1,0 +1,9 @@
+1， jps -v
+2， lsof -i:(port)
+3,  启动virtualVM 远程监控
+4，tomcat/bin/catalina.sh 中加入监控参数   JAVA_OPTS="-Dcom.sun.management.jmxremote.port=1099 -Dcom.sun.management.jmxremote.ssl=false -Dcom.sun.management.jmxremote.authenticate=false -Djava.rmi.server.hostname="
+
+tomcat 关闭启动：
+              sh shutdown.sh
+              sh startup.sh
+             
