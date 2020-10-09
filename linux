@@ -8,3 +8,7 @@ mac不能更改/usr/bin 文件系统解决：
 
 
 
+export添加的环境变量，默认保存在~/.bash_profile
+　　找到要删除的那一行删除即可
+　　然后，source .bash_profile 使生效
+　　退出重连进行验证，已经彻底删除了。
