@@ -3,6 +3,12 @@ netstat -nltp | grep 2910    查看进程端口
 su  test -c "mkdir /data/test123" 
 
 
+
+
+mac：
+
+mac brew安装Python 已经带Python-devel了
+
 mac不能更改/usr/bin 文件系统解决：
 1，重启，过程中按command+r 进入还原模式，在实用工具启动终端，运行csrutil disable.再次重启，重启成功后进入终端执行su root -c "mount -uw /"即可。
 
