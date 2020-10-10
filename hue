@@ -9,10 +9,18 @@ https://docs.cloudera.com/documentation/enterprise/5-7-x/topics/cdh_ig_hue_datab
 配置参数分段
 [desktop]
 
-   [[database]]  数据库段的配置
+   [[database]]  数据库段的配置 这里是hue自己的数据库服务
        conn_max_age  长连接相关配置
        host   如果用容器外的宿主机的库 需要指定宿主机的ifconfig出来的ip
        port
        user
        password   事先建好用户和密码，不然hue会启动其他的配置项，导致出错
        name       事先建好库名，不然hue会启动其他的配置项导致出错
+
+
+
+
+
+1.Hue集成RDBMS数据库需要在librdbms和notebook两个部分都需要添加相应的配置，否则在Hue界面上无法显示。这两部分是为了读外部数据源
+
+2.notebook配置部分需要注意，添加新的配置后覆盖默认的，导致Hive、Impala等不能再Hue上显示，配置时需要将需要的服务都添加上。
