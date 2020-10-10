@@ -1,0 +1,11 @@
+
+
+
+docker启动后配置
+https://github.com/cloudera/hue/tree/master/tools/docker/hue#configuration
+
+配置参数分段
+[desktop]
+
+   [[database]]  数据库段的配置
+       conn_max_age  长连接相关配置
