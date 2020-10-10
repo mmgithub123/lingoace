@@ -18,3 +18,13 @@ export添加的环境变量，默认保存在~/.bash_profile
 　　找到要删除的那一行删除即可
 　　然后，source .bash_profile 使生效
 　　退出重连进行验证，已经彻底删除了。
+  
+  
+  
+  
+  mysql 授权：
+  
+  CREATE USER canal IDENTIFIED BY 'canal';  
+GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canal'@'%';
+-- GRANT ALL PRIVILEGES ON *.* TO 'canal'@'%' ;
+FLUSH PRIVILEGES;
