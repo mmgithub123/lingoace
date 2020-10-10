@@ -28,3 +28,8 @@ export添加的环境变量，默认保存在~/.bash_profile
 GRANT SELECT, REPLICATION SLAVE, REPLICATION CLIENT ON *.* TO 'canal'@'%';
 -- GRANT ALL PRIVILEGES ON *.* TO 'canal'@'%' ;
 FLUSH PRIVILEGES;
+
+设置用户密码：
+alter user 'root'@'' identified by ''；
+
+
