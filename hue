@@ -3,9 +3,16 @@
 
 docker启动后配置
 https://github.com/cloudera/hue/tree/master/tools/docker/hue#configuration
+使用额外数据库配置
+https://docs.cloudera.com/documentation/enterprise/5-7-x/topics/cdh_ig_hue_database.html
 
 配置参数分段
 [desktop]
 
    [[database]]  数据库段的配置
        conn_max_age  长连接相关配置
+       host   如果用容器外的宿主机的库 需要指定宿主机的ifconfig出来的ip
+       port
+       user
+       password   事先建好用户和密码，不然hue会启动其他的配置项，导致出错
+       name       事先建好库名，不然hue会启动其他的配置项导致出错
