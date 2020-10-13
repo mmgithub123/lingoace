@@ -3,6 +3,21 @@ netstat -nltp | grep 2910    查看进程端口
 su  test -c "mkdir /data/test123" 
 
 
+git：
+1）撤消合并，并再次拉。
+
+撤消合并：
+git merge --abort [自git版本1.7.4]
+git reset --merge [之前的git版本]
+
+2）解决冲突。
+
+3）不要忘记添加和提交合并。
+
+4）git pull现在应该工作正常。
+
+
+
 
 
 mac：
