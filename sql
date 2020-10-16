@@ -34,3 +34,6 @@ This creates the possibility that mysql_affected_rows() may not actually equal t
 
 改字段：
 alter table accounts_transfer_order modify column to_amount decimal(18,6);
+
+删外键
+alter table `accounts_transfer_order` drop foreign key fk_accounts_transfer_order_from_product_id;;
