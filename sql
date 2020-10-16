@@ -18,3 +18,8 @@ select t.a,t.time,order_no from tmp_have_order_no_balance,(select 1 as a, now() 
 | 1 | 2020-10-14 07:24:07 | 47 |
 | 1 | 2020-10-14 07:24:07 | 0172 |
 | 1 | 2020-10-14 07:24:07 | 1311|
+
+
+
+create table select * from table  where 1 <> 1; 只建表
+copy 表 加数据 create table select * from table 
