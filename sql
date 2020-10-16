@@ -37,3 +37,22 @@ alter table accounts_transfer_order modify column to_amount decimal(18,6);
 
 删外键
 alter table `accounts_transfer_order` drop foreign key fk_accounts_transfer_order_from_product_id;;
+
+导入数据指定列：
+LOAD DATA INFILE '/var/lib/mysql-files/insert_data_xuwu.txt' INTO TABLE accounts_transfer_order FIELDS TERMINATED BY ','  
+OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n' (froe_id,to_bad,frnt,e_time);
+
+
+
+
+特殊case bug
+mysql> insert into  table (from_id,to__id,from_a,to_a,from__id,to__id,remove,create_time,update_time) 
+select  from__id,to__id,from_a, to_a,t1.transfer__id,t1.recipient__id,t.remove,t1.create_time,t1.update_time from 
+finfer t1 inner join ( select reference, parent__id, balance_id as from__id, amount as from_a from finance__change 
+where reason in (10, 11) ) t2 on t1.recipient__id = t2.parent__id and t1.id = t2.reference inner join ( select reference, parent__id, 
+balance_id as to__id, amount as to_a from finance__change where reason in (10, 11) ) t3 
+on t1.transfer__id = t3.parent__id and t1.id = t3.reference,(select 0 as remove) as t ;
+
+ERROR 1292 (22007): Truncated incorrect DOUBLE value: '1e773fa9-11ac-41ab-8dcb-f84ec2df61e3'
+
+
