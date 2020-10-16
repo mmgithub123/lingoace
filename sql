@@ -36,7 +36,10 @@ This creates the possibility that mysql_affected_rows() may not actually equal t
 alter table accounts_transfer_order modify column to_amount decimal(18,6);
 
 删外键
-alter table `accounts_transfer_order` drop foreign key fk_accounts_transfer_order_from_product_id;;
+alter table `accounts_transfer_order` drop foreign key fk_accounts_transfer_order_from_product_id;
+加外键
+Alter table  `acrder`  add  CONSTRAINT `fk_uct_id` 
+FOREIGN KEY (`td`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 导入数据指定列：
 LOAD DATA INFILE '/var/lib/mysql-files/insert_data_xuwu.txt' INTO TABLE accounts_transfer_order FIELDS TERMINATED BY ','  
