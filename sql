@@ -30,3 +30,7 @@ Query OK, 9906 rows affected (2.30 sec)
 Rows matched: 13687  Changed: 9906    这个的意思是  查了13687  有一些是相等的 所以没更新 就会是9906
 When using UPDATE, MySQL will not update columns where the new value is the same as the old value. 
 This creates the possibility that mysql_affected_rows() may not actually equal the number of rows matched
+
+
+改字段：
+alter table accounts_transfer_order modify column to_amount decimal(18,6);
