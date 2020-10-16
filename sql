@@ -23,3 +23,10 @@ select t.a,t.time,order_no from tmp_have_order_no_balance,(select 1 as a, now() 
 
 create table select * from table  where 1 <> 1; 只建表
 copy 表 加数据 create table select * from table 
+
+
+update 返回
+Query OK, 9906 rows affected (2.30 sec)
+Rows matched: 13687  Changed: 9906    这个的意思是  查了13687  有一些是相等的 所以没更新 就会是9906
+When using UPDATE, MySQL will not update columns where the new value is the same as the old value. 
+This creates the possibility that mysql_affected_rows() may not actually equal the number of rows matched
