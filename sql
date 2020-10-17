@@ -48,6 +48,16 @@ OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n' (froe_id,to_bad,frnt,e_time)
 
 
 
+
+四种join方式
+join  默认就是inner join  内连接
+inner join(内连接），在两张表进行连接查询时，只保留两张表中完全匹配的结果集
+left join(左连接)、在两张表进行连接查询时，会返回左表所有的行，即使在右表中没有匹配的记录。
+right join（右连接）、在两张表进行连接查询时，会返回右表所有的行，即使在左表中没有匹配的记录。
+full join（全连接），在两张表进行连接查询时，返回左表和右表中所有没有匹配的行。
+
+
+
 特殊case bug
 mysql> insert into  table (from_id,to__id,from_a,to_a,from__id,to__id,remove,create_time,update_time) 
 select  from__id,to__id,from_a, to_a,t1.transfer__id,t1.recipient__id,t.remove,t1.create_time,t1.update_time from 
