@@ -45,6 +45,12 @@ FOREIGN KEY (`td`) REFERENCES `product` (`id`) ON DELETE CASCADE ON UPDATE CASCA
 LOAD DATA INFILE '/var/lib/mysql-files/insert_data_xuwu.txt' INTO TABLE accounts_transfer_order FIELDS TERMINATED BY ','  
 OPTIONALLY ENCLOSED BY '"' LINES TERMINATED BY '\n' (froe_id,to_bad,frnt,e_time);
 
+定义变量：
+mysql> select  @max_id:=(select max(id) from accounts_subscription);
+使用
+select @max_id;
+select count(*) from acction where id > @max_id;
+
 
 
 
