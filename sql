@@ -20,6 +20,11 @@ select t.a,t.time,order_no from tmp_have_order_no_balance,(select 1 as a, now() 
 | 1 | 2020-10-14 07:24:07 | 1311|
 
 
+CREATE TEMPORARY TABLE 临时表名 AS
+(
+    SELECT *  FROM table LIMIT 0,10000
+);
+
 
 create table select * from table  where 1 <> 1; 只建表
 copy 表 加数据 create table select * from table 
