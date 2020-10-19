@@ -1,5 +1,10 @@
 
 
+
+sql中条件，if，case when等
+select id,it,id+if(it is NULL,0,it) from fr where it IS NULL 
+
+
 差集：
 　SELECT Name FROM Person_1
 　　EXCEPT
