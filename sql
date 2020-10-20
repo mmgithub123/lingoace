@@ -1,6 +1,8 @@
 
 
 
+scp .ssh/id_rsa.pub chb@191:/home/chsa.pub 
+
 sql中条件，if，case when等
 select id,it,id+if(it is NULL,0,it) from fr where it IS NULL 
 
