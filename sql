@@ -4,6 +4,21 @@
 sql中条件，if，case when等
 select id,it,id+if(it is NULL,0,it) from fr where it IS NULL 
 
+查询 sql 影响行数：
+The ROW_COUNT() value is similar to the value from the mysql_affected_rows() C API function and the row count 
+that the mysql client displays following statement execution.
+mysql> INSERT INTO t VALUES(1),(2),(3);
+Query OK, 3 rows affected (0.00 sec)
+Records: 3  Duplicates: 0  Warnings: 0
+
+mysql> SELECT ROW_COUNT();
++-------------+
+| ROW_COUNT() |
++-------------+
+|           3 |
++-------------+
+1 row in set (0.00 sec)
+
 
 差集：
 　SELECT Name FROM Person_1
