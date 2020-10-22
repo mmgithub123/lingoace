@@ -1,0 +1,10 @@
+
+MGR:
+
+requirements:
+
+1,must innodb,
+You can prevent the use of other storage engines by setting the disabled_storage_engines system variable on group members, for example:
+disabled_storage_engines="MyISAM,BLACKHOLE,FEDERATED,ARCHIVE,MEMORY"
+
+
