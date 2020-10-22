@@ -7,4 +7,23 @@ requirements:
 You can prevent the use of other storage engines by setting the disabled_storage_engines system variable on group members, for example:
 disabled_storage_engines="MyISAM,BLACKHOLE,FEDERATED,ARCHIVE,MEMORY"
 
+2,Primary Keys.  
+Every table that is to be replicated by the group must have a defined primary key, 
+or primary key equivalent where the equivalent is a non-null unique key.
 
+3,network
+The performance and stabiity of a group can be impacted by both network latency and network bandwidth.
+
+config options:
+ --log-bin[=log_file_name]
+ --log-slave-updates.
+ --binlog-format=row.
+ --binlog-checksum=NONE.
+ gtid_mode=ON
+ master_info_repository=TABLE 
+ relay_log_info_repository=TABLE.
+  --transaction-write-set-extraction=XXHASH64 
+   binlog_transaction_dependency_tracking=WRITESET_SESSION 
+   --default-table-encryption 
+   --lower-case-table-names 
+   slave_preserve_commit_order=1 
