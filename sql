@@ -42,10 +42,13 @@ select t.a,t.time,order_no from tmp_have_order_no_balance,(select 1 as a, now() 
 | 1 | 2020-10-14 07:24:07 | 1311|
 
 
+临时表：
 CREATE TEMPORARY TABLE 临时表名 AS
 (
     SELECT *  FROM table LIMIT 0,10000
 );
+在同一个query语句中，你只能查找一次临时表。
+You cannot refer to a TEMPORARY table more than once in the same query
 
 
 create table select * from table  where 1 <> 1; 只建表
