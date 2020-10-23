@@ -3,7 +3,7 @@
 
 MGR:
 
-requirements:
+一，requirements: 依赖要求
 
 1,must innodb,   必须全用innodb，不细说，好处多，坏处少
 You can prevent the use of other storage engines by setting the disabled_storage_engines system variable on group members, for example:
@@ -13,13 +13,15 @@ disabled_storage_engines="MyISAM,BLACKHOLE,FEDERATED,ARCHIVE,MEMORY"
 Every table that is to be replicated by the group must have a defined primary key, 
 or primary key equivalent where the equivalent is a non-null unique key.
 
-3,network，网络要好
+3,network，网络要好，高带宽，低延迟
 The performance and stabiity of a group can be impacted by both network latency and network bandwidth.
 
 config options:
+开启行格式binlog
  --log-bin[=log_file_name]
  --log-slave-updates.
  --binlog-format=row.
+ 
  --binlog-checksum=NONE.
  gtid_mode=ON
  master_info_repository=TABLE 
@@ -28,10 +30,46 @@ config options:
    binlog_transaction_dependency_tracking=WRITESET_SESSION 
    --default-table-encryption 
    --lower-case-table-names 
-   slave_preserve_commit_order=1 
-   
+  开启多线程复制
+--slave-parallel-workers=N  #N为具体的复制线程个数
 
-限制：
+--slave-preserve-commit-order=1 #slave上apply relay-log时事务顺序提交
+
+--slave-parallel-type=LOGICAL_CLOCK  #使用多线程复制
+   
+  
+
+
+二，限制：
+
+1，20之前必须binlog_checksum=NONE
+Up to and including MySQL 8.0.20, Group Replication cannot make use of checksums and does not 
+support their presence in the binary log, so you must set binlog_checksum=NONE
+
+2，多主group，不支持序列化隔离级别，官方推荐用读提交，ream commited，也就是第二种隔离级别。
+   因为之前大部分用可重复读，也就是解决了幻读问题的隔离级别，目前组复制校验的进程不支持间隙锁，mysql间隙锁的设计是为了解决幻读问题 
+SERIALIZABLE Isolation Level.  SERIALIZABLE isolation level is not supported in multi-primary groups by default
+
+3，多主模式，不支持并发DDL，说白了就是同时在多个节点改表结构不支持，得一个节点执行，然后同步到其他节点。
+Concurrent data definition statements and data manipulation statements executing against the same object 
+but on different servers is not supported when using multi-primary mode.
+
+4，组复制校验的进程不支持表级锁和named locks 
+
+5，For a group in multi-primary mode, unless you rely on REPEATABLE READ semantics in your applications,
+we recommend using the READ COMMITTED isolation level with Group Replication. 
+这一块的细研究下
+
+6，Foreign Keys with Cascading Constraints
+组复制的多主模式不支持带有级联约束类型的外键 
+
+7，多主模式，select 。。。 for update 可能造成死锁
+When a group is operating in multi-primary mode, SELECT .. FOR UPDATE statements can result in a deadlock. 
+This is because the lock is not shared across the members of the group, therefore the expectation for such a statement might not be reached.
+
+8，Global replication filters cannot be used on a MySQL server instance that is configured for Group Replication
+
+
 MGR,基于GTID，所以GTID的一些限制，MGR同样有：
 1，不要混合引擎用，都用innodb
 
@@ -43,6 +81,13 @@ In this case, CREATE TABLE ... SELECT is recorded in the binary log as one trans
 3，To prevent execution of statements that would cause GTID-based replication to fail, 
 all servers must be started with the --enforce-gtid-consistency option when enabling GTIDs
 禁止业务库使用临时表，CREATE TEMPORARY TABLE or DROP TEMPORARY TABLE statements inside transactions.
+
+4， sql_slave_skip_counter is not supported when using GTIDs. 
+If you need to skip transactions, use the value of the source's gtid_executed variable instead.
+
+
+
+
 
 
 
