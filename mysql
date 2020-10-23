@@ -1,17 +1,19 @@
+把mysql当存储用，计算及校验全放到业务代码里。所以存储过程，触发器，函数，外键，临时表，批量sql命令（create select这些 ）这些都不用。
+
 
 MGR:
 
 requirements:
 
-1,must innodb,
+1,must innodb,   必须全用innodb，不细说，好处多，坏处少
 You can prevent the use of other storage engines by setting the disabled_storage_engines system variable on group members, for example:
 disabled_storage_engines="MyISAM,BLACKHOLE,FEDERATED,ARCHIVE,MEMORY"
 
-2,Primary Keys.  
+2,Primary Keys.   最好全有显示的自增id主键，好处大大的。
 Every table that is to be replicated by the group must have a defined primary key, 
 or primary key equivalent where the equivalent is a non-null unique key.
 
-3,network
+3,network，网络要好
 The performance and stabiity of a group can be impacted by both network latency and network bandwidth.
 
 config options:
@@ -28,13 +30,21 @@ config options:
    --lower-case-table-names 
    slave_preserve_commit_order=1 
    
+
 限制：
 MGR,基于GTID，所以GTID的一些限制，MGR同样有：
 1，不要混合引擎用，都用innodb
 
 2，create table ...select 命令：8.0 21之前有限制当做建表和insert into。。。select两个语句。之后在数据字典的基础上支持了原子DDL，整个操作当做一个事务，限制就没了。
+业务库就直接不用得了，没必要这么细。
 This restriction is lifted in MySQL 8.0.21 on storage engines that support atomic DDL. 
-In this case, CREATE TABLE ... SELECT is recorded in the binary log as one transaction
+In this case, CREATE TABLE ... SELECT is recorded in the binary log as one transaction3，
+
+3，To prevent execution of statements that would cause GTID-based replication to fail, 
+all servers must be started with the --enforce-gtid-consistency option when enabling GTIDs
+禁止业务库使用临时表，CREATE TEMPORARY TABLE or DROP TEMPORARY TABLE statements inside transactions.
+
+
 
 
 
