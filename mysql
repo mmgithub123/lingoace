@@ -27,3 +27,11 @@ config options:
    --default-table-encryption 
    --lower-case-table-names 
    slave_preserve_commit_order=1 
+   
+   
+MGR,基于GTID，所以GTID的一些限制，MGR同样有：
+1，不要混合引擎用，都用innodb
+
+2，create table ...select 命令：8.0 21之前有限制，之后支持了原子DDL，限制没了。
+This restriction is lifted in MySQL 8.0.21 on storage engines that support atomic DDL. 
+In this case, CREATE TABLE ... SELECT is recorded in the binary log as one transaction
