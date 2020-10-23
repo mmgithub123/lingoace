@@ -28,10 +28,36 @@ config options:
    --lower-case-table-names 
    slave_preserve_commit_order=1 
    
-   
+限制：
 MGR,基于GTID，所以GTID的一些限制，MGR同样有：
 1，不要混合引擎用，都用innodb
 
-2，create table ...select 命令：8.0 21之前有限制，之后支持了原子DDL，限制没了。
+2，create table ...select 命令：8.0 21之前有限制当做建表和insert into。。。select两个语句。之后在数据字典的基础上支持了原子DDL，整个操作当做一个事务，限制就没了。
 This restriction is lifted in MySQL 8.0.21 on storage engines that support atomic DDL. 
 In this case, CREATE TABLE ... SELECT is recorded in the binary log as one transaction
+
+
+
+
+
+
+原子DDL:
+An atomic DDL statement combines the data dictionary updates（数据字典）, storage engine operations（引擎操作）, 
+and binary log writes（写binlog） associated with a DDL operation into a single, atomic operation. 
+这三个操作原子性的在一起，要么都成功，要么回滚。
+日志记录：
+To view DDL logs that are written to the mysql.innodb_ddl_log data dictionary table during atomic DDL operations t
+
+
+数据字典：
+
+
+
+
+
+
+
+
+8.0.21实用新功能：
+动态开启redo log，有助于数据热导入加快。
+只指定某个库为只读。
