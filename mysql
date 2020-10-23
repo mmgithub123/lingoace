@@ -72,6 +72,10 @@ This is because the lock is not shared across the members of the group, therefor
 
 8，Global replication filters cannot be used on a MySQL server instance that is configured for Group Replication
 
+9，居然可以直接设置事务数据量大小：
+Use the system variable group_replication_transaction_size_limit to specify a maximum transaction size that the group accepts.
+In MySQL 8.0, this system variable defaults to a maximum transaction size of 150000000 bytes (approximately 143 MB)
+
 
 MGR,基于GTID，所以GTID的一些限制，MGR同样有：
 1，不要混合引擎用，都用innodb
