@@ -1,0 +1,45 @@
+
+
+DAG: The work (tasks), and the order in which work should take place (dependencies), written in Python.
+DAG Run: An instance of a DAG for a particular logical date and time.
+Operator: A class that acts as a template for carrying out some work.
+Task: Defines work by implementing an operator, written in Python.
+Task Instance: An instance of a task - that has been assigned to a DAG and has a state associated with a specific DAG run (i.e for a specific execution_date).
+execution_date: The logical date and time for a DAG Run and its Task Instances.
+
+
+tasks:
+Each task is an implementation of an Operator, for example a PythonOperator to execute some Python code,
+or a BashOperator to run a Bash command.
+
+ task_1 >> task_2 # Define dependencies
+ We can say that task_1 is upstream of task_2, and conversely task_2 is downstream of task_1. 
+ When a DAG Run is created, task_1 will start running and task_2 waits for task_1 to complete successfully before it may start.
+ 
+ 
+ task state
+ Task instances also have an indicative state, which could be “running”, “success”, “failed”, “skipped”, “up for retry”, etc.
+ 
+ Airflow does have a feature for operator cross-communication called XCom that is described in the section XComs
+ 
+ 
+ 
+ 
+ Airflow provides operators for many common tasks, including:
+
+BashOperator - executes a bash command
+
+PythonOperator - calls an arbitrary Python function
+
+EmailOperator - sends an email
+
+SimpleHttpOperator - sends an HTTP request
+
+MySqlOperator, SqliteOperator, PostgresOperator, MsSqlOperator, OracleOperator, JdbcOperator, etc. - executes a SQL command
+
+Sensor - an Operator that waits (polls) for a certain time, file, database row, S3 key, etc…
+
+In addition to these basic building blocks, there are many more specific operators: DockerOperator, HiveOperator, S3FileTransformOperator, PrestoToMySqlTransfer, SlackAPIOperator… you get the idea!
+
+Operators are only loaded by Airflow if they are assigned to a DAG.
+
