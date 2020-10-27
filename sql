@@ -1,6 +1,33 @@
 
 
 
+mysql 权限：
+CREATE USER 'jeffrey'@'localhost' IDENTIFIED BY 'password';
+GRANT SELECT ON `repair_data`.`accounts_balance` TO `canal`@`172.16.4.156` 
+revoke all on *.* from dba@localhost;
+
+
+给多个表赋权，如何取出一批表，如何批量执行，只用shell： 就是shell数组遍历 和 xargs 多列转一行
+#!/bin/bash
+  
+my_array=(a b c d e f g）
+echo "第一个元素为: ${my_array[0]}"    a
+echo "第一个元素为: ${my_array[2]}"    c
+echo "数组元素个数为: ${#my_array[*]}" 7
+
+for item in ${my_array[*]}
+do
+ mysql -u xxx -p -e "GRANT ALL PRIVILEGES ON ra.$item TO user@ip"
+
+done
+
+a b c d e f g 来自  mysql -u xxx -p -e "use db;show tables" |xargs
+
+
+
+
+
+
 scp .ssh/id_rsa.pub chb@191:/home/chsa.pub 
 
 sql中条件，if，case when等
