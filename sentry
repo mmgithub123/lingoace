@@ -1,0 +1,133 @@
+
+
+
+到百度首页百度首页登录
+基于Sentry实现数据访问权限控制
+
+dataTECH
+
+发布时间：18-11-1918:32
+
+Sentry初识
+
+Sentry是适用于Hadoop生态环境、基于角色的授权管理系统，可以模块化集成到HDFS、Hive、Impala。它是一个策略引擎，运行定义授权规则，以校验用户对数据模型的访问请求。
+
+授权粒度
+
+Sentry数据访问授权的实现依赖于授权对象和操作，授权对象定义要受授权规则约束的对象，可以是服务器(server)、数据库、表、视图甚至是列；操作定义运行的操作粒度，包括查找(select)、删除(delete)、创建(create)等。授权对象和操作级别的组合模式提供了不同特权级别的访问控制。
+
+在某些场景下，管理员可以使用视图的方式限制对行或列的访问，能一定程度上减少权限设置的工作量。
+
+Role
+
+角色是一个权限集合，定义授权规则的基本单位。角色的概念允许将多个授权规则集合到一起，然后再把权限相同的用户分到一个角色里，很方便后续权限管理维护。比如不同业务的人员访问不同的业务表，可以建多个角色，再给角色赋予相对应的业务表访问权限，如果这类用户要修改权限，只需对角色进行权限更改。
+
+Group
+
+组是一个用户集合，默认情况下Sentry使用Hadoop中配置的组映射机制（比如使用OS的用户组），Sentry使用Hadoop配置的组映射机制，以确保Sentry看到组映射和Hadoop生态系统中其他组件看到的相同。把一个Group加到多个Role里，这样就给用户分配到了权限，可以将多个用户分到一个组里。组的概念进一步降低了权限管理的复杂度。
+
+授权一般操作
+
+1、创建角色
+
+2、给角色赋权限
+
+3、用户所属组加入到授权实体（角色）
+
+Sentry与Hive、Impala、Hue集成
+
+Hive、Impala等集成Sentry后可以提高数据访问的安全性、限制用户访问特定资源。
+
+如果Hadoop集群是用Cloudera Manager管理的，安装Sentry就特别简便，在cm上next、next就可以了，安装后和Hive、Impala、Hue的集成也很简单，只需要在对应的组件配置界面上勾选上sentry就可以了，比如：
+
+
+如果Hive集成了Sentry，会强制启用数据库中的存储通知设置，开启这个配置后，对一个表进行大并发DDL操作（比如删除分区、增加分区等）时可能导致Hive Metastore超时。
+
+通过hive管理Sentry：hive和Sentry集成后，可在beeline通过命令管理Sentry权限，需要注意的是Hive Cli不支持Sentry管理。赋权用GRANT语句，权限回收用REVOKE语句。如前所述，权限对象包括服务(SERVER)、数据库(DATABASE)、表(TABLE)，权限操作包括：ALL、SELECT、UPDATE。
+
+赋权例子：
+
+创建角色：CREATE ROLE <role name>
+
+组分配角色：GRANT ROLE <role name> TO GROUP <group name>
+
+服务级赋权：GRANT <ALL|SELECT|UPDATE> ON SERVER <server name> TO ROLE <role name>
+
+数据库赋权：GRANT <ALL|SELECT|UPDATE> ON DATABASE <database name> TO ROLE <role name>
+
+表赋权：GRANT <ALL|SELECT|UPDATE> ON <database name>.<table name> TO ROLE <role name>
+
+权限回收例子：
+
+回收数据库权限：REVOKE <ALL|SELECT|UPDATE> ON DATABASE <database name> FROM ROLE <role name>
+
+查看某个角色的权限：SHOW GRANT ROLE <role name>
+
+Sentry集成到Hue的好处：在beeline管理sentry权限不够值观，要输入命令，而Hue上是以图形化实现等价操作，包括创建role、配置role的权限策略、给group分配role等。具体的在hue上的相关操作比较简单，不再赘述。
+
+需要注意的是配置管理sentry权限的用户，要有所有表的访问权限，否则看到的数据库、表不完全。
+
+Hadoop用户、用户组和Hue用户、用户组以及Sentry角色的关系：
+
+如前所述，Sentry使用Hadoop用户组策略，而Hadoop默认是OS用户组，Hue和Sentry集成后，就要求用户组同时在Hue和OS里都要创建。
+
+Hue权限初识
+
+Hue权限总体上可以分为两类：一类是功能权限、一类是数据权限。
+
+功能权限是对Hue上一系列功能使用的授权，比如用户登陆Hue、使用Hive引擎、使用Impala引擎以及管理用户等功能性权限；数据权限的粒度是数据级别的，就是对数据库、数据表的访问权限，甚至是字段的访问权限，数据权限控制用户能看到哪些对象，对避免信息泄露、提高数据安全性是非常有用的。
+
+管理Hue的功能权限相对较简单，过程是先创建用户、用户组，创建后的用户默认就有了登录Hue的权限，而用户组是基本的权限管理单位。把用户分到用户组，最后再给用户组赋予特定的权限，这样用户就有了分配后的权限。一个企业一般都有统一的LDAP认证体系，Hue也可以集成LDAP，这样避免用户创建、密码管理等维护成本，下面会有相信阐述。
+
+Hue没有数据授权的功能，但可以依赖Sentry实现，和Sentry的集成是这篇文章的主要内容，在谈Sentry前先聊下Hue集成LDAP，这可让我们从用户管理这块解脱出来。
+
+Hue集成LDAP
+
+如前所述，通过与LDAP集成，用户可以使用LDAP目录中存储的现有凭证登录Hue，将 Hue与LDAP集成后，无需在Hue中独立管理用户信息。
+
+下面演示集成步骤：
+
+1、身份验选择证LDAP，启用ldap身份验证
+
+2、并配置LDAP Server url。ldaps://开头的url对用户名、密码以加密形式传输，ldap://是以明文形式传输
+
+
+3、配置搜索绑定机制，设置search_bind_authentication以启用搜索绑定；
+
+查找用户和组的搜索库的专有名称通过base_dn配置设置进行定义。
+
+还有一种是使用直接绑定机制，使用直接绑定时，必须使用精确的nt_domain 或ldap_username_pattern进行身份验证。使用直接绑定时，如果定义了 nt 域 (通过 nt_domain 配置设置进行定义) 属性，则使用以下形式创建用户可分辨名称模板：<login username>@nt_domain。此模板用于从基本可分辨名称开始，搜索所有目录子树。如果未配置 nt 域，则 Hue 搜索用户的精确可分辨名称模式 (通过 ldap_username_pattern 配置设置进行定义)。在这种情况下，服务器从基本可分辨名称开始，在所有目录子树中搜索匹配 ldap_username_pattern 值。
+
+一般首选方法是搜索绑定，本文也是按照搜索绑定做的。
+
+4、LDAP身份验证首先绑定到服务器并建立连接。随后，建立的连接用于任何后续查询以搜索LDAP用户信息。配置绑定到ldap服务的信息，bind_dn：定义绑定可分辨名称 (或 DN) ；bind_password：配置设置绑定密码
+
+
+
+Sentry环境测试
+
+一、Hive
+
+JDBC访问带Sentry环境的Hive，测试不同用户对hive数据的访问权限，实现见下：
+
+
+如果用户没有访问权限，会报异常：
+
+二、Impala
+
+JDBC访问带Sentry环境的impala，需要注意的是连接的url，设置成AuthMech=3。
+
+
+三、Spark SQL查询Hive
+
+hive引擎使用hadoop的mapReducer引擎做文件解析和查询，spark使用的是自己的sql引擎做的解析，把每个数据库表当成一个RDD，直接操作底层HDFS。所以对于没有集成Sentry的HDFS来说，实现代码没有任何差别。
+
+四、Hive查Hbase
+
+Hive提供了与HBase的集成，使得能够在HBase表上使用HQL语句进行查询 插入操作以及进行Join和Union等复杂查询。sentry同样也能对hive查hbase的表进行权限设置，测试代码同hive，不再赘述。
+
+
+
+
+
+
