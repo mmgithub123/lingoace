@@ -17,7 +17,7 @@ echo "数组元素个数为: ${#my_array[*]}" 7
 
 for item in ${my_array[*]}
 do
- mysql -u xxx -p -e "GRANT ALL PRIVILEGES ON ra.$item TO user@ip"
+ mysql -u xxx --password= -e "GRANT ALL PRIVILEGES ON ra.$item TO user@ip"
 
 done
 
