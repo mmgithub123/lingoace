@@ -25,6 +25,9 @@ a b c d e f g 来自  mysql -u xxx -p -e "use db;show tables" |xargs
 
 
 
+xargs:
+xargs -n1   一行打印
+
 
 
 
