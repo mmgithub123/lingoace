@@ -16,6 +16,12 @@ the member_role column will list the primary node,and his host and port.
 the member_state column show it health or not.
 
 
+maybe code+zookeeper+MGR
+soft Concurrency read MGR member list's ip,get the member_role,and all member_state,and soft concurrency put in zookeeper node.
+make zk node and MGR primary have heartbeat,and if MGR primary down ,zk delete the node,in this time client can't get the 
+MGR primary ip from zk,so,client will start register process,and it is the head of  this words. 
+
+
 MGR:
 https://zhuanlan.zhihu.com/p/128461028
 MGR single primary mode（单主模式）具备非常好的数据一致性保障以及容灾能力，并保持了很高的性能，适合在生产实践中广泛使用。MGR多主模式（multi-primary mode）在写入负载很重的时候，
