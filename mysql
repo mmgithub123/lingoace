@@ -10,6 +10,12 @@ select name,NUM_ROWS from INNODB_TABLESTATS where name like "tablename%" order b
 禁用大表。
 -------------------------------------------------------------------------------------------------
 
+MGR HA:
+SELECT * FROM performance_schema.replication_group_members;
+the member_role column will list the primary node,and his host and port.
+the member_state column show it health or not.
+
+
 MGR:
 https://zhuanlan.zhihu.com/p/128461028
 MGR single primary mode（单主模式）具备非常好的数据一致性保障以及容灾能力，并保持了很高的性能，适合在生产实践中广泛使用。MGR多主模式（multi-primary mode）在写入负载很重的时候，
