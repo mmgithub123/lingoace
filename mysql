@@ -12,6 +12,9 @@ select name,NUM_ROWS from INNODB_TABLESTATS where name like "tablename%" order b
 
 MGR:
 
+MGR single primary mode（单主模式）具备非常好的数据一致性保障以及容灾能力，并保持了很高的性能，适合在生产实践中广泛使用。MGR多主模式（multi-primary mode）在写入负载很重的时候，
+会由于多个节点的数据写入冲突导致的大量事务回滚而产生比较大的TPS和延时的抖动，所以只适合写入非常少，主要是读负载的场景，比如少量参数配置的存储，类似zookeeper的使用场景。
+
 一，requirements: 依赖要求
 
 1,must innodb,   必须全用innodb，不细说，好处多，坏处少
