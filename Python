@@ -1,0 +1,26 @@
+
+http
+
+requests；
+
+import hashlib
+import time
+
+import requests
+
+url = 'http://39.107.88.21:20001/crm/customerI'
+body_param=str({'startTime':'2019-01-01 00:00:00','endTime':'2019-01-01 23:59:59'})
+t = time.time()
+post_time = str(round(t * 1000))
+
+md5_data = 'si_02'+post_time+body_param+'470bjul6ogiqxt3nknlp'
+sign = hashlib.md5(md5_data.encode()).hexdigest()
+
+
+r = requests.post(url, headers={'appid':'si_lgtest1102','sign':sign,'timestamp':post_time,
+                                'Content-Type':'application/json'},
+                  data=body_param)
+
+print(r.json)
+
+------------------------------------------------------------------------------------------------------
