@@ -1,0 +1,15 @@
+
+brew tap mongodb/brew    //这步不知道需不需要
+brew install mongodb-community@4.2
+使用brew安装好的MongoDB，默认会在如下位置创建相关文件
+
+the configuration file (/usr/local/etc/mongod.conf)
+the log directory path (/usr/local/var/log/mongodb)
+the data directory path (/usr/local/var/mongodb)
+启动关闭MongoDB有两种方法
+方法一：使用brew
+
+// 启动
+brew services start mongodb-community@4.2
+// 关闭
+brew services stop mongodb-community@4.2
