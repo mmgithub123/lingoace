@@ -36,3 +36,25 @@ use  after install:
 export PATH="/usr/local/opt/mongodb-community@4.2/bin:$PATH"
 
 e@e ~ % mongo
+
+
+To display the database you are using, type db:
+db
+
+To list the databases available to the user, use the helper 
+show dbs. 
+
+use DATABASE_NAME
+如果数据库不存在，则创建数据库，否则切换到指定数据库。
+
+删除数据库
+在想要删除的库下执行 db.dropDatabase()  也就是
+先 use test
+然后 db.dropDatabase()
+
+创建集合：
+Create a Collection
+If a collection does not exist, MongoDB creates the collection when you first store data for that collection.
+
+---------------------------------------------------------------------------------------------
+pymongo:
