@@ -91,3 +91,8 @@ In this case, I am running the test_dag DAG with the execution date set to 2019-
 
 提交生成一个dag：就是执行创建dag的脚本
 python ~/airflow/dags/somedagcode.py
+
+------------------------------------------------------------------------------------------
+
+airflow docker
+https://github.com/puckel/docker-airflow
