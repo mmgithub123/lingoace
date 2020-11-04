@@ -51,3 +51,39 @@ In addition to these basic building blocks, there are many more specific operato
 
 Operators are only loaded by Airflow if they are assigned to a DAG.
 
+
+
+-----------------------------------------------------------------------------------------
+action:
+
+查看依赖：
+# print the list of active DAGs
+airflow list_dags
+
+# prints the list of tasks the "tutorial" dag_id
+airflow list_tasks tutorial
+
+# prints the hierarchy of tasks in the tutorial DAG
+airflow list_tasks tutorial --tree
+
+
+测试：
+execution_date
+# command layout: command subcommand dag_id task_id date
+airflow test tutorial print_date 2015-06-01
+
+note: airflow test,It simply allows testing a single task instance.
+
+
+depends_on_past = true
+是否满足 task 的依赖性。 直接位于 task 上游的任务实例需要处于success状态。 此外，如果设置depends_on_past=True ，除了满足上游成功之外，
+前一个调度周期的 task instance 也需要成功（除非该 task 是第一次运行）
+You may also want to consider wait_for_downstream=True when using depends_on_past=True. While depends_on_past=True causes a task instance to depend on 
+the success of its previous task_instance, wait_for_downstream=True will cause a task instance to also wait for all task instances immediately downstream 
+of the previous task instance to succeed.
+
+运行：
+backfill：
+The operation of running a DAG for a specified date in the past is called “backfilling.”
+》》》airflow backfill -s 2019-01-01 -e 2019-01-04 test_dag
+In this case, I am running the test_dag DAG with the execution date set to 2019-01-01, 2019-01-02, and 2019-01-03.
