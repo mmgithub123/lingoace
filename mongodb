@@ -56,5 +56,11 @@ use DATABASE_NAME
 Create a Collection
 If a collection does not exist, MongoDB creates the collection when you first store data for that collection.
 
+列出所有集合
+show collections
+
+查询所有文档
+db.allWxId.find()
+
 ---------------------------------------------------------------------------------------------
 pymongo:
