@@ -87,3 +87,7 @@ backfill：
 The operation of running a DAG for a specified date in the past is called “backfilling.”
 》》》airflow backfill -s 2019-01-01 -e 2019-01-04 test_dag
 In this case, I am running the test_dag DAG with the execution date set to 2019-01-01, 2019-01-02, and 2019-01-03.
+
+
+提交生成一个dag：就是执行创建dag的脚本
+python ~/airflow/dags/somedagcode.py
