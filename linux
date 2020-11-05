@@ -3,6 +3,11 @@ netstat -nltp | grep 2910    查看进程端口
 su  test -c "mkdir /data/test123" 
 
 
+ls只显示目录：
+ls -F | grep "/$"
+
+
+
 git：
 1）撤消合并，并再次拉。
 
