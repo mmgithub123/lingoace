@@ -31,6 +31,6 @@ https://zhuanlan.zhihu.com/p/64893308
 要导入上级目录下模块，可以使用sys.path： 　
 import sys 
 sys.path.append("..") 
-import xxx　
+import xxx
 
 
