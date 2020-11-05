@@ -24,3 +24,13 @@ r = requests.post(url, headers={'appid':'si_lgtest1102','sign':sign,'timestamp':
 print(r.json)
 
 ------------------------------------------------------------------------------------------------------
+
+导包：
+https://zhuanlan.zhihu.com/p/64893308
+
+要导入上级目录下模块，可以使用sys.path： 　
+import sys 
+sys.path.append("..") 
+import xxx　
+
+
