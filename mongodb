@@ -62,6 +62,36 @@ show collections
 查询所有文档
 db.allWxId.find()
 
+管理;
+systemctl stop mongod  关闭
+systemctl start mongod  启动
+
+db.createUser(
+... {user:"admin",
+... customData:{description:"superuser"},
+... pwd:"",
+... roles:[{role:"userAdminAnyDatabase", db:"admin"}]
+... }
+... )
+
+db.createUser(
+... {
+... user:"op",
+... pwd:"",
+... customData:{description:"for data action"},
+... roles:[
+... {role:"readWrite",db:"docs_hu_jing"}
+... ]
+... })
+
+
+ 
+
+
+mongo
+use admin
+
+
 ---------------------------------------------------------------------------------------------
 pymongo:
 
