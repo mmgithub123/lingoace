@@ -84,8 +84,9 @@ db.createUser(
 ... ]
 ... })
 
-
- 
+配置文件里加：
+security:
+      authorization: "enabled"
 
 
 mongo
