@@ -1,4 +1,23 @@
 
+install：
+export AIRFLOW_HOME=~/airflow
+
+# install from pypi using pip
+pip install apache-airflow
+
+# initialize the database
+airflow initdb（这一步会报错，往往安装的时候报错，无非是版本不匹配，权限不对，文件位置不对，配置不对，依赖不对，全都是适配性的东西，用docker都可以解决）
+GitHub issue里有讨论解决：https://github.com/apache/airflow/issues/11965
+因为：
+this was caused by a Python dependency; specifically cattrs==1.1.0, which was released yesterday (2020-10-29). Downgrading cattrs manually to 1.0.0 
+does fix the issue and allows the Airflow database to be initialised:
+
+
+
+
+
+--------------------------------------------------------------
+
 operator->task->dag
 
 
