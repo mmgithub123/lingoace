@@ -107,6 +107,10 @@ t1 >> [t2, t3]
 然后执行  python3  kk.py   执行后，无异常输出就没问题，然后要等 ，等一会才能在web里刷新到调度
 
 
+触发调度：
+Each DAG may or may not have a schedule, which informs how DAG Runs are created. schedule_interval is defined as a DAG arguments, 
+and receives preferably a cron expression as a str, 
+or a datetime.timedelta object. Alternatively, you can also use one of these cron “preset”:
 
 
 --------------------------------------------------------------
